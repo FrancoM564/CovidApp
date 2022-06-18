@@ -9,9 +9,9 @@ import com.example.covidapp.DataBase.entity.Resultado
 interface ResultadosDao{
 
     @Insert
-    suspend fun insertarResultado(resultado: Resultado)
+    fun insertarResultado(resultado: Resultado)
 
-    @Query("SELECT  * FROM Resultados")
-    suspend fun getAll() : List<Resultado>
+    @Query("SELECT * FROM Resultados")
+    fun getAll() : List<Resultado>
 
 }
