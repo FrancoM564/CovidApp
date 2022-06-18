@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.lifecycle.lifecycleScope
+import com.example.covidapp.DataBase.CovidAppconect
 import com.example.covidapp.DataBase.entity.Resultado
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,14 +36,17 @@ class MainActivity : AppCompatActivity() {
 
         try {
             val data = connection.inputStream.bufferedReader()
+
             var linea = data.readLine()
-            linea = data.readLine()
-            var asa = deserializar(linea)
-            /*while(data.readLine().also{linea = it}!=null){
-                xd++
-            }*/
-            Log.d("SDadad",asa.id_persona.toString())
-            Log.d("SDadad",asa.distrito)
+            var resultado : Resultado
+
+            while(data.readLine().also{linea = it}!=null){
+                resultado = deserializar(linea)
+                //CovidAppconect.database.resultadosDao().insertarResultado(resultado)
+            }
+
+            Log.d("dasd",CovidAppconect.database.resultadosDao().getAll().toString())
+
         }catch(ex: IOException){
             Log.d("Exception",ex.toString())
         }
@@ -50,6 +54,9 @@ class MainActivity : AppCompatActivity() {
 
     fun deserializar (linea : String): Resultado{
         val datosLinea = linea.split(";")
+
+        val fechacorte : Int
+
         var resultado = Resultado(0,datosLinea[0].toInt(),datosLinea[1],
         datosLinea[2],datosLinea[3],datosLinea[4],datosLinea[5].toInt(),
         datosLinea[6],datosLinea[7].toInt(),datosLinea[8].toInt(),datosLinea[9].toInt())
