@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.lifecycle.lifecycleScope
+import com.example.covidapp.DataBase.entity.Resultado
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -24,23 +25,34 @@ class MainActivity : AppCompatActivity() {
 
         btnSincro!!.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                val connection = URL(url).openConnection() as HttpURLConnection
-
-                try {
-                    val data = connection.inputStream.bufferedReader()
-                    var linea : String?
-                    while(data.readLine().also{linea = it}!=null){
-                        Log.d("SDadad",linea.toString())
-                        Thread.sleep(50)
-                    }
-                }catch(ex: IOException){
-                    Log.d("Exception",ex.toString())
-                }
+                sincronizar()
         } }
 
     }
 
     fun sincronizar(){
+        val connection = URL(url).openConnection() as HttpURLConnection
 
+        try {
+            val data = connection.inputStream.bufferedReader()
+            var linea = data.readLine()
+            linea = data.readLine()
+            var asa = deserializar(linea)
+            /*while(data.readLine().also{linea = it}!=null){
+                xd++
+            }*/
+            Log.d("SDadad",asa.id_persona.toString())
+            Log.d("SDadad",asa.distrito)
+        }catch(ex: IOException){
+            Log.d("Exception",ex.toString())
+        }
+    }
+
+    fun deserializar (linea : String): Resultado{
+        val datosLinea = linea.split(";")
+        var resultado = Resultado(0,datosLinea[0].toInt(),datosLinea[1],
+        datosLinea[2],datosLinea[3],datosLinea[4],datosLinea[5].toInt(),
+        datosLinea[6],datosLinea[7].toInt(),datosLinea[8].toInt(),datosLinea[9].toInt())
+        return resultado
     }
 }
