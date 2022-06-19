@@ -8,6 +8,8 @@
         <entry key="..\:/Users/Matias/Documents/2022-1/ProgramacionMovil/Trabajo3/CovidApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Matias/Documents/2022-1/ProgramacionMovil/Trabajo3/CovidApp/app/src/main/res/layout/activity_ver_data.xml" value="0.33" />
         <entry key="..\:/Users/Matias/Documents/2022-1/ProgramacionMovil/Trabajo3/CovidApp/app/src/main/res/layout/item_data.xml" value="0.5" />
+        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.1728395061728395" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>
     </option>
   </component>
@@ -16,5 +18,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>
