@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 txtBar!!.text = "Datos cargados correctamente!"
             })
 
-            delay(300000)
+            delay(3000)
 
             runOnUiThread(Runnable {
                 pgBar!!.visibility = View.GONE
