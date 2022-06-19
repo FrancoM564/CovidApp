@@ -1,13 +1,20 @@
 package com.example.covidapp
 
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import com.example.covidapp.DataBase.CovidAppconect
 import com.example.covidapp.DataBase.entity.Resultado
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.IOException
 import java.net.HttpURLConnection
@@ -19,6 +26,10 @@ class MainActivity : AppCompatActivity() {
     var btnSincro : Button? = null
     var btnLimpiar : Button? = null
     var btnData : Button? = null
+    var pgBar : ProgressBar? = null
+    var txtBar : TextView? = null
+    var estaSincro : Boolean = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,17 +38,22 @@ class MainActivity : AppCompatActivity() {
         btnSincro = findViewById(R.id.bt_sincronizar)
         btnLimpiar = findViewById(R.id.bt_limpiar)
         btnData = findViewById(R.id.bt_verdata)
+        pgBar = findViewById(R.id.pgBar1)
+        txtBar = findViewById(R.id.txPgBar)
+        pgBar!!.visibility = View.GONE
 
         btnSincro!!.setOnClickListener {
-            lifecycleScope.launch(Dispatchers.IO) {
-                sincronizar()
-                val xd = CovidAppconect.database.resultadosDao().getCount()
-                Log.d("sd",xd.toString())
-        } }
+            sincronizar()
+        }
 
         btnLimpiar!!.setOnClickListener{
-            lifecycleScope.launch(Dispatchers.IO){
-                limpiar()
+            if(estaSincro){
+                Log.d("s","Sincronizando.....")
+            }else{
+                lifecycleScope.launch (Dispatchers.IO){
+                    limpiar()
+                }
+                btnSincro!!.isEnabled = true
             }
         }
 
@@ -46,69 +62,81 @@ class MainActivity : AppCompatActivity() {
                 tempVerdatos()
             }
         }
-
     }
 
-    fun sincronizar(){
-        val connection = URL(url).openConnection() as HttpURLConnection
+    fun sincronizar():Boolean{
+        estaSincro = true
+        lifecycleScope.launch(Dispatchers.IO){
+            runOnUiThread(Runnable {
+                btnSincro!!.isEnabled = false
+                pgBar!!.visibility = View.VISIBLE
+                txtBar!!.text = "Cargando datos"
+            })
+            val connection = URL(url).openConnection() as HttpURLConnection
+            try {
+                val data = connection.inputStream.bufferedReader()
+                var linea : String?
+                data.readLine()
+                var resultado : Resultado
 
-        try {
-            val data = connection.inputStream.bufferedReader()
+                while(data.readLine().also{linea = it}!=null){
+                    resultado = deserializar(linea)
+                    CovidAppconect.database.resultadosDao().insertarResultado(resultado)
+                }
 
-            var linea = data.readLine()
-            var resultado : Resultado
-
-            while(data.readLine().also{linea = it}!=null){
-                resultado = deserializar(linea)
-                CovidAppconect.database.resultadosDao().insertarResultado(resultado)
+            }catch(ex: IOException){
+                Log.d("Exception",ex.toString())
             }
 
-        }catch(ex: IOException){
-            Log.d("Exception",ex.toString())
+            runOnUiThread(Runnable {
+                estaSincro = false
+                pgBar!!.isIndeterminate = false
+                pgBar!!.progress = 100
+                txtBar!!.text = "Datos cargados correctamente!"
+            })
+
+            delay(30000)
+
+            runOnUiThread(Runnable {
+                pgBar!!.visibility = View.GONE
+                txtBar!!.visibility = View.GONE
+            })
         }
+        return true
     }
 
-    fun deserializar (linea : String): Resultado{
-        val datosLinea = linea.split(";")
+    fun deserializar (linea : String?): Resultado{
 
-        var fechacorte : Int?
+        val datosLinea = linea!!.split(";")
+
+        var fechacorte : Int? = null
         var departamento = datosLinea[1]
         var provincia = datosLinea[2]
         var distrito = datosLinea[3]
         var metodo = datosLinea[4]
-        var edad : Int?
+        var edad : Int? = null
         var sexo = datosLinea[6]
-        var fecharesultado : Int?
-        var ubigeo : Int?
-        var idpersona : Int?
+        var fecharesultado : Int? = null
+        var ubigeo : Int? = null
+        var idpersona : Int? = null
 
-        if (datosLinea[0]==""){
-            fechacorte = null
-        }else{
+        if (datosLinea[0]!=""){
             fechacorte = datosLinea[0].toInt()
         }
 
-        if (datosLinea[5]==""){
-            edad = null
-        }else{
+        if (datosLinea[5]!=""){
             edad = datosLinea[5].toInt()
         }
 
-        if (datosLinea[7]==""){
-            fecharesultado = null
-        }else{
+        if (datosLinea[7]!=""){
             fecharesultado = datosLinea[7].toInt()
         }
 
-        if (datosLinea[8]==""){
-            ubigeo = null
-        }else{
+        if (datosLinea[8]!=""){
             ubigeo = datosLinea[8].toInt()
         }
 
-        if (datosLinea[9]==""){
-            idpersona = null
-        }else{
+        if (datosLinea[9]!=""){
             idpersona = datosLinea[9].toInt()
         }
 
@@ -119,10 +147,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun limpiar(){
-        CovidAppconect.database.resultadosDao().nukeTable()
+        var nelementos = CovidAppconect.database.resultadosDao().getCount()
+        if(nelementos == 0){
+            Log.d("s","No hay que borrar")
+        }else{
+            CovidAppconect.database.resultadosDao().nukeTable()
+            Log.d("s","Borrado")
+        }
     }
 
     fun tempVerdatos(){
+        //aca hagan sus cosas
         Log.d("sdasas",CovidAppconect.database.resultadosDao().getCount().toString())
     }
 }
