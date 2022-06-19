@@ -14,4 +14,11 @@ interface ResultadosDao{
     @Query("SELECT * FROM Resultados")
     fun getAll() : List<Resultado>
 
+    @Query("SELECT COUNT(*) FROM Resultados")
+    fun getCount() : Int
+
+    @Query("DELETE FROM Resultados")
+    fun nukeTable()
+
+
 }

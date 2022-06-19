@@ -17,17 +17,28 @@ class MainActivity : AppCompatActivity() {
 
     val url = "https://files.minsa.gob.pe/s/eRqxR35ZCxrzNgr/download"
     var btnSincro : Button? = null
+    var btnLimpiar : Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         btnSincro = findViewById(R.id.bt_sincronizar)
+        btnLimpiar = findViewById(R.id.bt_limpiar)
 
         btnSincro!!.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-                sincronizar()
+            val xd = CovidAppconect.database.resultadosDao().getAll()
+            Log.d("sd",xd.toString())
+
+            //sincronizar()
         } }
+
+        btnLimpiar!!.setOnClickListener{
+            lifecycleScope.launch(Dispatchers.IO){
+                limpiar()
+            }
+        }
 
     }
 
@@ -39,13 +50,16 @@ class MainActivity : AppCompatActivity() {
 
             var linea = data.readLine()
             var resultado : Resultado
+            linea = data.readLine()
+            resultado = deserializar(linea)
+            CovidAppconect.database.resultadosDao().insertarResultado(resultado)
 
-            while(data.readLine().also{linea = it}!=null){
+            /*while(data.readLine().also{linea = it}!=null){
                 resultado = deserializar(linea)
-                //CovidAppconect.database.resultadosDao().insertarResultado(resultado)
-            }
+                CovidAppconect.database.resultadosDao().insertarResultado(resultado)
+            }*/
 
-            Log.d("dasd",CovidAppconect.database.resultadosDao().getAll().toString())
+           //Log.d("dasd",CovidAppconect.database.resultadosDao().getCount().toString())
 
         }catch(ex: IOException){
             Log.d("Exception",ex.toString())
@@ -55,11 +69,54 @@ class MainActivity : AppCompatActivity() {
     fun deserializar (linea : String): Resultado{
         val datosLinea = linea.split(";")
 
-        val fechacorte : Int
+        var fechacorte : Int?
+        var departamento = datosLinea[1]
+        var provincia = datosLinea[2]
+        var distrito = datosLinea[3]
+        var metodo = datosLinea[4]
+        var edad : Int?
+        var sexo = datosLinea[6]
+        var fecharesultado : Int?
+        var ubigeo : Int?
+        var idpersona : Int?
 
-        var resultado = Resultado(0,datosLinea[0].toInt(),datosLinea[1],
-        datosLinea[2],datosLinea[3],datosLinea[4],datosLinea[5].toInt(),
-        datosLinea[6],datosLinea[7].toInt(),datosLinea[8].toInt(),datosLinea[9].toInt())
+        if (datosLinea[0]==""){
+            fechacorte = null
+        }else{
+            fechacorte = datosLinea[0].toInt()
+        }
+
+        if (datosLinea[5]==""){
+            edad = null
+        }else{
+            edad = datosLinea[5].toInt()
+        }
+
+        if (datosLinea[7]==""){
+            fecharesultado = null
+        }else{
+            fecharesultado = datosLinea[7].toInt()
+        }
+
+        if (datosLinea[8]==""){
+            ubigeo = null
+        }else{
+            ubigeo = datosLinea[8].toInt()
+        }
+
+        if (datosLinea[9]==""){
+            idpersona = null
+        }else{
+            idpersona = datosLinea[9].toInt()
+        }
+
+        var resultado = Resultado(0,fechacorte,departamento,provincia,distrito,metodo,edad,sexo,fecharesultado,
+                                ubigeo,idpersona)
+
         return resultado
+    }
+
+    fun limpiar(){
+        CovidAppconect.database.resultadosDao().nukeTable()
     }
 }
