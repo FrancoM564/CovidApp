@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     val url = "https://files.minsa.gob.pe/s/eRqxR35ZCxrzNgr/download"
     var btnSincro : Button? = null
     var btnLimpiar : Button? = null
+    var btnData : Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,18 +26,24 @@ class MainActivity : AppCompatActivity() {
 
         btnSincro = findViewById(R.id.bt_sincronizar)
         btnLimpiar = findViewById(R.id.bt_limpiar)
+        btnData = findViewById(R.id.bt_verdata)
 
         btnSincro!!.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
-            val xd = CovidAppconect.database.resultadosDao().getAll()
-            Log.d("sd",xd.toString())
-
-            //sincronizar()
+                sincronizar()
+                val xd = CovidAppconect.database.resultadosDao().getCount()
+                Log.d("sd",xd.toString())
         } }
 
         btnLimpiar!!.setOnClickListener{
             lifecycleScope.launch(Dispatchers.IO){
                 limpiar()
+            }
+        }
+
+        btnData!!.setOnClickListener {
+            lifecycleScope.launch (Dispatchers.IO){
+                tempVerdatos()
             }
         }
 
@@ -50,16 +57,11 @@ class MainActivity : AppCompatActivity() {
 
             var linea = data.readLine()
             var resultado : Resultado
-            linea = data.readLine()
-            resultado = deserializar(linea)
-            CovidAppconect.database.resultadosDao().insertarResultado(resultado)
 
-            /*while(data.readLine().also{linea = it}!=null){
+            while(data.readLine().also{linea = it}!=null){
                 resultado = deserializar(linea)
                 CovidAppconect.database.resultadosDao().insertarResultado(resultado)
-            }*/
-
-           //Log.d("dasd",CovidAppconect.database.resultadosDao().getCount().toString())
+            }
 
         }catch(ex: IOException){
             Log.d("Exception",ex.toString())
@@ -110,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             idpersona = datosLinea[9].toInt()
         }
 
-        var resultado = Resultado(0,fechacorte,departamento,provincia,distrito,metodo,edad,sexo,fecharesultado,
+        var resultado = Resultado(null,fechacorte,departamento,provincia,distrito,metodo,edad,sexo,fecharesultado,
                                 ubigeo,idpersona)
 
         return resultado
@@ -118,5 +120,9 @@ class MainActivity : AppCompatActivity() {
 
     fun limpiar(){
         CovidAppconect.database.resultadosDao().nukeTable()
+    }
+
+    fun tempVerdatos(){
+        Log.d("sdasas",CovidAppconect.database.resultadosDao().getCount().toString())
     }
 }

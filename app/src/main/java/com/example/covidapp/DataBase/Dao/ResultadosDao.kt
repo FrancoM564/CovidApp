@@ -20,5 +20,4 @@ interface ResultadosDao{
     @Query("DELETE FROM Resultados")
     fun nukeTable()
 
-
 }

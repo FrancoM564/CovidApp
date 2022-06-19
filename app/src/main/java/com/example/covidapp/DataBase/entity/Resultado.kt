@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull
 @Entity(tableName = "Resultados")
 data class Resultado(
     @PrimaryKey(autoGenerate = true)
-    val id : Int?,
+    val id : Int? = 0,
     val fecha_corte : Int?,
     val departamento : String,
     val provincia : String,
