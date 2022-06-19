@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread(Runnable {
                 btnSincro!!.isEnabled = false
                 pgBar!!.visibility = View.VISIBLE
+                pgBar!!.isIndeterminate = true
                 txtBar!!.text = "Cargando datos"
             })
             val connection = URL(url).openConnection() as HttpURLConnection
@@ -95,7 +96,7 @@ class MainActivity : AppCompatActivity() {
                 txtBar!!.text = "Datos cargados correctamente!"
             })
 
-            delay(30000)
+            delay(300000)
 
             runOnUiThread(Runnable {
                 pgBar!!.visibility = View.GONE
