@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">CovidApp</string>
     <string name="info_us">Elaborado por:\nMarco Landauro ()\nFranco Marquez()\nMatias Villanueva()</string>
+    <string name="sincronizar">SINCRONIZAR</string>
+    <string name="limpiar">LIMPIAR</string>
+    <string name="ver_data">VER DATA</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,25 +11,22 @@
         android:id="@+id/bt_sincronizar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:text="SINCRONIZAR"
-        android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="80dp"
-        app:layout_constraintVertical_bias="1.0"
-
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="20dp"
+        android:text="@string/sincronizar"
         app:layout_constraintBottom_toTopOf="@id/bt_limpiar"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/bt_limpiar"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:text="LIMPIAR"
+        android:text="@string/limpiar"
         android:layout_marginHorizontal="80dp"
         app:layout_constraintVertical_chainStyle="packed"
-
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,11 +37,10 @@
         android:id="@+id/bt_verdata"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:text="VER DATA"
+        android:text="@string/ver_data"
         android:layout_marginVertical="20dp"
         android:layout_marginHorizontal="80dp"
         app:layout_constraintVertical_bias="0.0"
-
         app:layout_constraintTop_toBottomOf="@id/bt_limpiar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,20 +54,19 @@
         android:layout_height="30dp"
         android:layout_marginHorizontal="80dp"
         android:indeterminate="true"
-        app:layout_constraintVertical_chainStyle="spread"
 
-        app:layout_constraintTop_toBottomOf="@id/bt_verdata"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:indeterminateTint="@color/black"
         app:layout_constraintBottom_toTopOf="@id/txPgBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bt_verdata"
 
-        />
+        app:layout_constraintVertical_chainStyle="spread" />
 
     <TextView
         android:id="@+id/txPgBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         app:layout_constraintTop_toBottomOf="@+id/pgBar1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +79,6 @@
         android:layout_height="wrap_content"
         android:text="@string/info_us"
         android:textAlignment="center"
-
         app:layout_constraintTop_toBottomOf="@id/txPgBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

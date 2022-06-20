@@ -22,9 +22,9 @@ class VerDataActivity : AppCompatActivity() {
     fun initRecyclerView(){
         val manager = LinearLayoutManager(this)
         val decoration = DividerItemDecoration(this, manager.orientation)
-        binding.rvListadoData.layoutManager = manager
-        binding.rvListadoData.adapter = DataAdapter(ObtenerBusqueda())
-        binding.rvListadoData.addItemDecoration(decoration)
+        binding.rvListadodata.layoutManager = manager
+        binding.rvListadodata.adapter = DataAdapter(ObtenerBusqueda())
+        binding.rvListadodata.addItemDecoration(decoration)
     }
     fun ObtenerBusqueda() : List<Resultado> {
         val listaData = CovidAppconect.database.resultadosDao().getAll()
