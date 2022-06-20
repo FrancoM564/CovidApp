@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:hint="Ingrese fecha"
-
+        android:inputType="datetime"
 
 
         android:minHeight="48dp"
