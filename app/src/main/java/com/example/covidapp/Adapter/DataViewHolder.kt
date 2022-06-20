@@ -14,6 +14,6 @@ class DataViewHolder(view : View) : RecyclerView.ViewHolder(view) {
 
     fun render(resultadoModel: DataDepartamentos){
         binding.tvDepartamento.text = resultadoModel.departamento
-        binding.tvCantidad.text = resultadoModel.edad.toString()
+        binding.tvCantidad.text = resultadoModel.cantidad.toString()
     }
 }

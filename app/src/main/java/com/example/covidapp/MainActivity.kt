@@ -1,5 +1,6 @@
 package com.example.covidapp
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -58,9 +59,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnData!!.setOnClickListener {
-            lifecycleScope.launch (Dispatchers.IO){
-                tempVerdatos()
-            }
+            startActivity(Intent(this, VerDataActivity::class.java))
         }
     }
 

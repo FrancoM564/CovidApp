@@ -2,6 +2,7 @@ package com.example.covidapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +11,6 @@ import com.example.covidapp.DataBase.CovidAppconect
 import com.example.covidapp.databinding.ActivityVerDataBinding
 import com.example.covidapp.room.DataDepartamentos
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.launch
 
 class VerDataActivity : AppCompatActivity() {
@@ -22,23 +22,25 @@ class VerDataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityVerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        initRecyclerView()
+        binding.btBuscar.setOnClickListener {
+            fecha = binding.etIngresarfecha.text.toString().toInt()
+            initRecyclerView(fecha)
+        }
     }
-    fun initRecyclerView(){
+    fun initRecyclerView(fecha: Int){
         val manager = LinearLayoutManager(this)
         val decoration = DividerItemDecoration(this, manager.orientation)
-        binding.rvListadoData.layoutManager = manager
+        binding.rvListadodata.layoutManager = manager
         lifecycleScope.launch(Dispatchers.IO){
-            listaData = ObtenerBusqueda(20220128)
-            runOnUiThread { Runnable {
-                println("HOLA" + listaData)
-                binding.rvListadoData.adapter = DataAdapter(listaData)
-                binding.rvListadoData.addItemDecoration(decoration)
-            } }
+            listaData = ObtenerBusqueda(fecha)
+            println("HOLA" + listaData)
+            lifecycleScope.launch(Dispatchers.Main){
+                binding.rvListadodata.adapter = DataAdapter(listaData)
+                binding.rvListadodata.addItemDecoration(decoration)
+            }
         }
-
     }
-    suspend fun ObtenerBusqueda(fecha : Int) : List<DataDepartamentos> {
+    suspend fun ObtenerBusqueda(fecha: Int) : List<DataDepartamentos> {
         listaData = CovidAppconect.database.resultadosDao().BusquedaFecha(fecha)
         return listaData
     }
