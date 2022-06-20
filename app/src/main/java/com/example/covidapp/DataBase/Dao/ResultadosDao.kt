@@ -21,6 +21,6 @@ interface ResultadosDao{
     @Query("DELETE FROM Resultados")
     fun nukeTable()
 
-//    @Query("SELECT resultados.departamento, COUNT (resultados.departamento) FROM Resultados WHERE resultados.fecha_corte =:fecha_busqueda ")
-//    fun BusquedaFecha(fecha_busqueda : Integer) : List<DataDepartamentos>
+    @Query("SELECT resultados.departamento, COUNT (resultados.departamento) FROM Resultados WHERE resultados.fecha_corte =:fecha_busqueda ")
+    fun BusquedaFecha(fecha_busqueda: Int) : List<DataDepartamentos>
 }
