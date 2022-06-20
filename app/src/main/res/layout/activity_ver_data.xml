@@ -7,20 +7,20 @@
     tools:context=".VerDataActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvListadoData"
+        android:id="@+id/rv_listadodata"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtIngresarFecha"
+        app:layout_constraintTop_toBottomOf="@+id/et_fecha"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0"
         android:layout_margin="15dp"
         app:layout_constraintVertical_chainStyle="packed"/>
 
     <TextView
-        android:id="@+id/tvFecha"
+        android:id="@+id/tv_fecha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
@@ -34,18 +34,19 @@
         tools:text="Fecha :" />
 
     <EditText
-        android:id="@+id/txtIngresarFecha"
+        android:id="@+id/et_fecha"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:layout_marginTop="10dp"
         android:hint="Ingrese fecha"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintVertical_bias="0"
-        android:layout_margin="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvFecha" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_fecha"
+        app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
