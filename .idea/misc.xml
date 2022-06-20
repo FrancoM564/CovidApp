@@ -8,8 +8,15 @@
         <entry key="..\:/Users/Matias/Documents/2022-1/ProgramacionMovil/Trabajo3/CovidApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Matias/Documents/2022-1/ProgramacionMovil/Trabajo3/CovidApp/app/src/main/res/layout/activity_ver_data.xml" value="0.33" />
         <entry key="..\:/Users/Matias/Documents/2022-1/ProgramacionMovil/Trabajo3/CovidApp/app/src/main/res/layout/item_data.xml" value="0.5" />
-        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.1728395061728395" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2585" />
+        <entry key="app/src/main/res/drawable/ic_baseline_local_hospital_24.xml" value="0.2" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.2585" />
+        <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/activity_ver_data.xml" value="0.14469453376205788" />
+        <entry key="app/src/main/res/layout/item_data.xml" value="1.2402892092440991" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2585" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2585" />
       </map>
     </option>
   </component>
