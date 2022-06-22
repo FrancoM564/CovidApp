@@ -58,35 +58,33 @@ class VerDataActivity : AppCompatActivity() {
         binding.rvListadodata.layoutManager = manager
         lifecycleScope.launch(Dispatchers.IO){
             listaData = ObtenerBusqueda()
-            listaData.map{
-                when(it.departamento){
-                    "AMAZONAS" -> it
-                    "ANCASH" -> it
-                    "APURIMAC" -> it
-                    "AREQUIPA" -> it
-                    "AYACUCHO" -> it
-                    "CAJAMARCA" -> it
-                    "CALLAO" -> it
-                    "CUSCO" -> it
-                    "HUANCAVELICA" -> it
-                    "HUANUCO" -> it
-                    "ICA" -> it
-                    "JUNIN" -> it
-                    "LA LIBERTAD" -> it
-                    "LAMBAYEQUE" -> it
-                    "LIMA" -> it
-                    "LORETO" -> it
-                    "MADRE DE DIOS" -> it
-                    "MOQUEGUA" -> it
-                    "PASCO" -> it
-                    "PIURA" -> it
-                    "PUNO" -> it
-                    "SAN MARTIN" -> it
-                    "TACNA" -> it
-                    "TUMBES" -> it
-                    "UCAYALI" -> it
-                    else -> null
-                }
+            listaData = listaData.filter {
+                it.departamento == "AMAZONAS" ||
+                        it.departamento == "ANCASH" ||
+                        it.departamento == "APURIMAC" ||
+                        it.departamento == "AREQUIPA" ||
+                        it.departamento == "AYACUCHO" ||
+                        it.departamento == "CAJAMARCA" ||
+                        it.departamento == "CALLAO" ||
+                        it.departamento == "CUSCO" ||
+                        it.departamento == "HUANCAVELICA" ||
+                        it.departamento == "HUANUCO" ||
+                        it.departamento == "ICA" ||
+                        it.departamento == "JUNIN" ||
+                        it.departamento == "LA LIBERTAD" ||
+                        it.departamento == "LAMBAYEQUE" ||
+                        it.departamento == "LIMA" ||
+                        it.departamento == "LORETO" ||
+                        it.departamento == "MADRE DE DIOS" ||
+                        it.departamento == "MOQUEGUA" ||
+                        it.departamento == "PASCO" ||
+                        it.departamento == "PIURA" ||
+                        it.departamento == "PUNO" ||
+                        it.departamento == "SAN MARTIN" ||
+                        it.departamento == "TACNA" ||
+                        it.departamento == "TUMBES" ||
+                        it.departamento == "UCAYALI"
+
             }
             if(listaData.size>0){
                 println("ENTROOOOOO")
