@@ -58,45 +58,51 @@ class VerDataActivity : AppCompatActivity() {
         binding.rvListadodata.layoutManager = manager
         lifecycleScope.launch(Dispatchers.IO){
             listaData = ObtenerBusqueda()
-            listaData = listaData.filter {
-                it.departamento == "AMAZONAS" ||
-                        it.departamento == "ANCASH" ||
-                        it.departamento == "APURIMAC" ||
-                        it.departamento == "AREQUIPA" ||
-                        it.departamento == "AYACUCHO" ||
-                        it.departamento == "CAJAMARCA" ||
-                        it.departamento == "CALLAO" ||
-                        it.departamento == "CUSCO" ||
-                        it.departamento == "HUANCAVELICA" ||
-                        it.departamento == "HUANUCO" ||
-                        it.departamento == "ICA" ||
-                        it.departamento == "JUNIN" ||
-                        it.departamento == "LA LIBERTAD" ||
-                        it.departamento == "LAMBAYEQUE" ||
-                        it.departamento == "LIMA" ||
-                        it.departamento == "LORETO" ||
-                        it.departamento == "MADRE DE DIOS" ||
-                        it.departamento == "MOQUEGUA" ||
-                        it.departamento == "PASCO" ||
-                        it.departamento == "PIURA" ||
-                        it.departamento == "PUNO" ||
-                        it.departamento == "SAN MARTIN" ||
-                        it.departamento == "TACNA" ||
-                        it.departamento == "TUMBES" ||
-                        it.departamento == "UCAYALI"
-            }
+
             if(listaData.size>0){
-                println("ENTROOOOOO")
-                binding.rvListadodata.visibility = View.VISIBLE
-                binding.tvNohaydatadisponible.visibility = View.GONE
+                println("ENTROOOOOO1")
+                listaData = listaData.filter {
+                    it.departamento == "AMAZONAS" ||
+                            it.departamento == "ANCASH" ||
+                            it.departamento == "APURIMAC" ||
+                            it.departamento == "AREQUIPA" ||
+                            it.departamento == "AYACUCHO" ||
+                            it.departamento == "CAJAMARCA" ||
+                            it.departamento == "CALLAO" ||
+                            it.departamento == "CUSCO" ||
+                            it.departamento == "HUANCAVELICA" ||
+                            it.departamento == "HUANUCO" ||
+                            it.departamento == "ICA" ||
+                            it.departamento == "JUNIN" ||
+                            it.departamento == "LA LIBERTAD" ||
+                            it.departamento == "LAMBAYEQUE" ||
+                            it.departamento == "LIMA" ||
+                            it.departamento == "LORETO" ||
+                            it.departamento == "MADRE DE DIOS" ||
+                            it.departamento == "MOQUEGUA" ||
+                            it.departamento == "PASCO" ||
+                            it.departamento == "PIURA" ||
+                            it.departamento == "PUNO" ||
+                            it.departamento == "SAN MARTIN" ||
+                            it.departamento == "TACNA" ||
+                            it.departamento == "TUMBES" ||
+                            it.departamento == "UCAYALI"
+                }
+                println("ENTROOOOOO2")
+                lifecycleScope.launch(Dispatchers.Main) {
+                    binding.rvListadodata.visibility = View.VISIBLE
+                    binding.tvNohaydatadisponible.visibility = View.GONE
+                }
                 println("HOLA" + listaData)
                 lifecycleScope.launch(Dispatchers.Main){
                     binding.rvListadodata.adapter = DataAdapter(listaData)
                 }
             }else{
                 println("SALIOOOOO")
-                binding.tvNohaydatadisponible.visibility = View.VISIBLE
-                binding.rvListadodata.visibility = View.GONE
+                lifecycleScope.launch(Dispatchers.Main) {
+                    binding.tvNohaydatadisponible.visibility = View.VISIBLE
+                    binding.rvListadodata.visibility = View.GONE
+                }
             }
         }
     }
