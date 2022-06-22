@@ -1,6 +1,7 @@
 package com.example.covidapp
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     var pgBar : ProgressBar? = null
     var txtBar : TextView? = null
     var estaSincro : Boolean = false
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

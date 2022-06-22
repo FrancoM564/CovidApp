@@ -1,10 +1,9 @@
 package com.example.covidapp
 
-import android.os.Build.VERSION_CODES.P
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log.d
+import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,6 +24,7 @@ class VerDataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityVerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        showDatePickerDialog()
 
         binding.etIngresarfecha.setOnClickListener {
             showDatePickerDialog()
@@ -54,12 +54,52 @@ class VerDataActivity : AppCompatActivity() {
 
     fun initRecyclerView(){
         val manager = LinearLayoutManager(this)
+        val decoration = DividerItemDecoration(this, manager.orientation)
         binding.rvListadodata.layoutManager = manager
         lifecycleScope.launch(Dispatchers.IO){
             listaData = ObtenerBusqueda()
-            println("HOLA" + listaData)
-            lifecycleScope.launch(Dispatchers.Main){
-                binding.rvListadodata.adapter = DataAdapter(listaData)
+            listaData.map{
+                when(it.departamento){
+                    "AMAZONAS" -> it
+                    "ANCASH" -> it
+                    "APURIMAC" -> it
+                    "AREQUIPA" -> it
+                    "AYACUCHO" -> it
+                    "CAJAMARCA" -> it
+                    "CALLAO" -> it
+                    "CUSCO" -> it
+                    "HUANCAVELICA" -> it
+                    "HUANUCO" -> it
+                    "ICA" -> it
+                    "JUNIN" -> it
+                    "LA LIBERTAD" -> it
+                    "LAMBAYEQUE" -> it
+                    "LIMA" -> it
+                    "LORETO" -> it
+                    "MADRE DE DIOS" -> it
+                    "MOQUEGUA" -> it
+                    "PASCO" -> it
+                    "PIURA" -> it
+                    "PUNO" -> it
+                    "SAN MARTIN" -> it
+                    "TACNA" -> it
+                    "TUMBES" -> it
+                    "UCAYALI" -> it
+                    else -> null
+                }
+            }
+            if(listaData.size>0){
+                println("ENTROOOOOO")
+                binding.rvListadodata.visibility = View.VISIBLE
+                binding.tvNohaydatadisponible.visibility = View.GONE
+                println("HOLA" + listaData)
+                lifecycleScope.launch(Dispatchers.Main){
+                    binding.rvListadodata.adapter = DataAdapter(listaData)
+                }
+            }else{
+                println("SALIOOOOO")
+                binding.tvNohaydatadisponible.visibility = View.VISIBLE
+                binding.rvListadodata.visibility = View.GONE
             }
         }
     }
