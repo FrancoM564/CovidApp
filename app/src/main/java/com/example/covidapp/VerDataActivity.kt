@@ -1,8 +1,10 @@
 package com.example.covidapp
 
+import android.os.Build.VERSION_CODES.P
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log.d
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,30 +19,45 @@ class VerDataActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityVerDataBinding
     private var fecha : Int = 0
-    private lateinit var listaData : List<DataDepartamentos>
+    private var listaData : List<DataDepartamentos> = emptyList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVerDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.btBuscar.setOnClickListener {
-            fecha = binding.etIngresarfecha.text.toString().toInt()
-            initRecyclerView(fecha)
+
+        binding.etIngresarfecha.setOnClickListener {
+            showDatePickerDialog()
         }
     }
-    fun initRecyclerView(fecha: Int){
+
+    private fun showDatePickerDialog(){
+        val datePicker = DatePickerFragment {day, month, year -> onDateSelected(day,month,year)}
+        datePicker.show(supportFragmentManager, "date ")
+    }
+
+    private fun onDateSelected(day:Int,month:Int,year:Int) {
+        //TODO AQUI DECIDEN EL FORMATO DE LA FECHA PARA LA QUERY
+        fecha = year + month*10000 + day*1000000
+        binding.etIngresarfecha.text = Editable.
+        Factory.getInstance().newEditable("${day}/${month}/${year}")
+        initRecyclerView()
+    }
+
+    fun initRecyclerView(){
         val manager = LinearLayoutManager(this)
         val decoration = DividerItemDecoration(this, manager.orientation)
         binding.rvListadodata.layoutManager = manager
         lifecycleScope.launch(Dispatchers.IO){
-            listaData = ObtenerBusqueda(fecha)
+            listaData = ObtenerBusqueda()
             println("HOLA" + listaData)
             lifecycleScope.launch(Dispatchers.Main){
                 binding.rvListadodata.adapter = DataAdapter(listaData)
-                binding.rvListadodata.addItemDecoration(decoration)
             }
         }
     }
-    suspend fun ObtenerBusqueda(fecha: Int) : List<DataDepartamentos> {
+
+    suspend fun ObtenerBusqueda() : List<DataDepartamentos> {
         listaData = CovidAppconect.database.resultadosDao().BusquedaFecha(fecha)
         return listaData
     }

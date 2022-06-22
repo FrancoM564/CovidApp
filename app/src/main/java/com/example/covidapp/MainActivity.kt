@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity() {
         if(nelementos == 0){
             Log.d("s","No hay que borrar")
         }else{
-            CovidAppconect.database.resultadosDao().nukeTable()
+//            CovidAppconect.database.resultadosDao().nukeTable()
             Log.d("s","Borrado")
         }
     }
