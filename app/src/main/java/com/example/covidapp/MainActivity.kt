@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, VerDataActivity::class.java))
         }
     }
-
+    private var contadorBorrar = 0
     fun sincronizar():Boolean{
         estaSincro = true
         lifecycleScope.launch(Dispatchers.IO){
@@ -82,6 +82,8 @@ class MainActivity : AppCompatActivity() {
                 while(data.readLine().also{linea = it}!=null){
                     resultado = deserializar(linea)
                     CovidAppconect.database.resultadosDao().insertarResultado(resultado)
+                    println(contadorBorrar)
+                    contadorBorrar++;
                 }
 
             }catch(ex: IOException){
@@ -109,39 +111,14 @@ class MainActivity : AppCompatActivity() {
 
         val datosLinea = linea!!.split(";")
 
-        var fechacorte : Int? = null
         var departamento = datosLinea[1]
-        var provincia = datosLinea[2]
-        var distrito = datosLinea[3]
-        var metodo = datosLinea[4]
-        var edad : Int? = null
-        var sexo = datosLinea[6]
         var fecharesultado : Int? = null
-        var ubigeo : Int? = null
-        var idpersona : Int? = null
-
-        if (datosLinea[0]!=""){
-            fechacorte = datosLinea[0].toInt()
-        }
-
-        if (datosLinea[5]!=""){
-            edad = datosLinea[5].toInt()
-        }
 
         if (datosLinea[7]!=""){
             fecharesultado = datosLinea[7].toInt()
         }
 
-        if (datosLinea[8]!=""){
-            ubigeo = datosLinea[8].toInt()
-        }
-
-        if (datosLinea[9]!=""){
-            idpersona = datosLinea[9].toInt()
-        }
-
-        var resultado = Resultado(null,fechacorte,departamento,provincia,distrito,metodo,edad,sexo,fecharesultado,
-                                ubigeo,idpersona)
+        var resultado = Resultado(null,departamento,fecharesultado)
 
         return resultado
     }

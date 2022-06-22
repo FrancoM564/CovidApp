@@ -8,14 +8,6 @@ import org.jetbrains.annotations.NotNull
 data class Resultado(
     @PrimaryKey(autoGenerate = true)
     val id : Int? = 0,
-    val fecha_corte : Int?,
     val departamento : String,
-    val provincia : String?,
-    val distrito : String?,
-    val metodo : String?,
-    val edad : Int?,
-    val sexo : String?,
-    val fecha_resultado : Int?,
-    val ubigeo : Int?,
-    val id_persona : Int?
+    val fecha_resultado : Int?
 )

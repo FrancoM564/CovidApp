@@ -36,9 +36,17 @@ class VerDataActivity : AppCompatActivity() {
         datePicker.show(supportFragmentManager, "date ")
     }
 
-    private fun onDateSelected(day:Int,month:Int,year:Int) {
+    private fun onDateSelected(day:Int,mes:Int,year:Int) {
         //TODO AQUI DECIDEN EL FORMATO DE LA FECHA PARA LA QUERY
-        fecha = year + month*10000 + day*1000000
+        val month = mes + 1
+        var tempDay : String = day.toString()
+        var tempMonth : String = month.toString()
+        if(day<10)
+            tempDay = "0"+day
+        if(month<10)
+            tempMonth = "0"+month
+        fecha = (year.toString() + tempMonth + tempDay).toInt()
+        println("CAM" + fecha)
         binding.etIngresarfecha.text = Editable.
         Factory.getInstance().newEditable("${day}/${month}/${year}")
         initRecyclerView()
@@ -46,7 +54,6 @@ class VerDataActivity : AppCompatActivity() {
 
     fun initRecyclerView(){
         val manager = LinearLayoutManager(this)
-        val decoration = DividerItemDecoration(this, manager.orientation)
         binding.rvListadodata.layoutManager = manager
         lifecycleScope.launch(Dispatchers.IO){
             listaData = ObtenerBusqueda()
