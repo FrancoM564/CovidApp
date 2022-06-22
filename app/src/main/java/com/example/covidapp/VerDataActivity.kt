@@ -84,7 +84,6 @@ class VerDataActivity : AppCompatActivity() {
                         it.departamento == "TACNA" ||
                         it.departamento == "TUMBES" ||
                         it.departamento == "UCAYALI"
-
             }
             if(listaData.size>0){
                 println("ENTROOOOOO")
